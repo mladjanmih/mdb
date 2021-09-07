@@ -119,3 +119,32 @@ db.knjizara.aggregate([
           }
     }
 ])
+
+//6)
+db.knjizara.aggregate([
+    { $unwind: "$stanje" },
+    { 
+        $lookup: 
+        {
+            from: "objekti",
+            localField:"stanje.prodavnica",
+            foreignField: "id",
+            as: "prodavnica"
+        }
+    },
+    { $unwind: "$prodavnica" },
+    {
+        $match: 
+        {
+            $and: 
+            [
+                {
+                    prodavnica: { $exists: true }
+                },
+                {
+                    "prodavnica.sef": "Danica Krstic"
+                }
+            ]
+          }
+     }
+])
