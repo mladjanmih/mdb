@@ -77,9 +77,17 @@ db.knjizara.aggregate([
         }
     },
     {
+        $project: 
+        {
+            "cena": "$cena.iznos",
+            "naslov": 1,
+            _id: 0
+          }
+    },
+    {
         $sort: 
         {
-            "cena.iznos": 1
+            "cena": 1
         }
     },
     { $limit: 1 }
