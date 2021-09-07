@@ -92,3 +92,30 @@ db.knjizara.aggregate([
     },
     { $limit: 1 }
 ])
+
+//5)
+db.knjizara.aggregate([
+    { $unwind: "$komentari" },
+    { 
+        $group: 
+        {
+            _id: { "brojStrana": "$brojStrana", "zanr": "$zanr"},
+            ProsecnaOcena: { $avg: "$komentari.ocena" },
+          }
+        
+    },
+    { 
+        $match: 
+        {
+            "_id.zanr": "Triler",
+            "ProsecnaOcena": { $gte: 4 }
+        }
+    },
+    {
+        $project: 
+        {
+            "BrojStrana": "$_id.brojStrana",
+            _id: 0
+          }
+    }
+])
