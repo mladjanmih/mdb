@@ -37,3 +37,32 @@ db.knjizara.find(
         _id: 0
     }
 )
+
+//3.
+db.knjizara.updateMany(
+    {
+        $and: 
+        [
+            {zanr: "Istorijski"}, {izdanje: "Strano"}
+        ]
+    },
+    {
+        $push: 
+        {
+            komentari: 
+            {
+                $each: 
+                [
+                    {
+                        id: 2,
+                        ocena: 4.3
+                    },
+                    {
+                        id: 3,
+                        ocena: 2.31
+                    }
+                ]
+            }
+        }
+    }
+)
