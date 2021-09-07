@@ -66,3 +66,21 @@ db.knjizara.updateMany(
         }
     }
 )
+
+//4)
+db.knjizara.aggregate([
+    { $unwind: "$cena" },
+    { 
+        $match: 
+        {
+            "cena.drzava": "Makedonija"
+        }
+    },
+    {
+        $sort: 
+        {
+            "cena.iznos": 1
+        }
+    },
+    { $limit: 1 }
+])
